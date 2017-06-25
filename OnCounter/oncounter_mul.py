@@ -1,7 +1,7 @@
 import threading
 import time
 import numpy as np
-from tools import read_mat, plot_array, plot_mult_arrays
+from tools import read_mat, plot_array, plot_mult_arrays, ratio
 
 exitFlag = 0
 
@@ -18,6 +18,7 @@ class onCounter(threading.Thread):
 		print("Starting thread for column ", self.col)
 		start_time = time.time()
 		quantity_on = counter_devices_get_on(self.ts, self.hm_hours)
+		print("")
 		print("    ==== Thread-", self.col, " ====    ")
 		print(" Amount of devices turned on: ", quantity_on)
 		print("---------------------------------------")
@@ -69,13 +70,13 @@ if __name__ == '__main__':
 	house_input = input("Choose your houshold (1-30): ")
 	# w_phase = input("Which phase? (1-6)")
 	hm_hours = int(input("How many hours for evaluation? "))
-	input1 = read_mat(path_to_dataset="../Input/ADRES_Daten_120208.mat", columns=[(int(house_input)*6)-6], ratio=1.0)
+	input1 = read_mat(path_to_dataset="../Input/ADRES_Daten_120208.mat", columns=[(int(house_input)*6)-6], ratio=ratio(1209600.0, hm_hours, 3600.0))
 	counter_thread1 = onCounter(input1, hm_hours, 1)
-	input2 = read_mat(path_to_dataset="../Input/ADRES_Daten_120208.mat", columns=[(int(house_input)*6)-4], ratio=1.0)
+	input2 = read_mat(path_to_dataset="../Input/ADRES_Daten_120208.mat", columns=[(int(house_input)*6)-4], ratio=ratio(1209600.0, hm_hours, 3600.0))
 	counter_thread2 = onCounter(input2, hm_hours, 2)
-	input3 = read_mat(path_to_dataset="../Input/ADRES_Daten_120208.mat", columns=[(int(house_input)*6)-2], ratio=1.0)
+	input3 = read_mat(path_to_dataset="../Input/ADRES_Daten_120208.mat", columns=[(int(house_input)*6)-2], ratio=ratio(1209600.0, hm_hours, 3600.0))
 	counter_thread3 = onCounter(input3, hm_hours, 3)
-	input_sum = read_mat(path_to_dataset="../Input/ADRES_Daten_120208.mat", columns=[(int(house_input)*6)-6,(int(house_input)*6)-4,(int(house_input)*6)-2], ratio=1.0)
+	input_sum = read_mat(path_to_dataset="../Input/ADRES_Daten_120208.mat", columns=[(int(house_input)*6)-6,(int(house_input)*6)-4,(int(house_input)*6)-2], ratio=ratio(1209600.0, hm_hours, 3600.0))
 	counter_thread4 = onCounter(input_sum, hm_hours, 4)
 	counter_thread1.start()
 	counter_thread2.start()

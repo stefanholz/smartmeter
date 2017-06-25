@@ -3,6 +3,8 @@ import scipy.io as spio
 import numpy as np
 import csv
 
+def ratio(total_number, hm_hours, hm_values_per_hour):
+    return (hm_values_per_hour * hm_hours) / total_number
 
 def plot_array(array_to_plot, plt_start=0, plt_end=100):
     try:
