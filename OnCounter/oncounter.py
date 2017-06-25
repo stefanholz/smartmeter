@@ -6,11 +6,10 @@ import time
 # ADRES_1_TAG_ratio: 0.07142857142857
 # Length of ADRES_Dataset = 1209600
 
-def counter_devices_get_on(ts):
+def counter_devices_get_on(ts, hm_hours):
 	mean_pre_values = 0
 	on_counter = 0
-	hm_hours = input("How many hours for evaluation? ")
-	plt_end = 3600 * hm_hours
+	plt_end = int(round(3600 * hm_hours))
 	index_ptr = 4
 	peak_counter = 0
 
@@ -53,9 +52,8 @@ def counter_devices_get_on(ts):
 if __name__ == '__main__':
 	house_input = input("Choose your houshold (1-30): ")
 	w_phase = input("Which phase? (1-6)")
-	test = read_mat(path_to_dataset="../Input/ADRES_Daten_120208.mat", columns=[(house_input*6)+w_phase-1], ratio=1.0)
+	hm_hours = input("How many hours for evaluation? ")
+	test = read_mat(path_to_dataset="../Input/ADRES_Daten_120208.mat", columns=[(house_input*6)+w_phase-7], ratio=1.0)
 	# print(test)
 	# plot_array(test, plt_end=3600*4)
-	counter_devices_get_on(test)
-
-
+	counter_devices_get_on(test, hm_hours)
