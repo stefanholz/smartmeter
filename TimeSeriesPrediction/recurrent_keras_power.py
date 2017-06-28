@@ -9,22 +9,22 @@ from keras.models import Sequential
 np.random.seed(1234)
 
 def read_mat(path_to_dataset,
-             sequence_length=50,
+             sequence_length=60,
              ratio=1.0):
 
     max_values = int(round(ratio * 1209600))
 
     matdata = spio.loadmat(path_to_dataset)
     outer_bin = matdata['Data']
-    inner_bin = outer_bin['U'][0,0]
+    inner_bin = outer_bin['PQ'][0,0]
 
     print("How many values imported? ", len(inner_bin[:,0]))
 
-    P_L1N = np.array(inner_bin[0:max_values,3])
-    P_L2N = np.array(inner_bin[0:max_values,4])
-    P_L3N = np.array(inner_bin[0:max_values,5])
+    P_L1N = np.array(inner_bin[0:max_values,0])
+    P_L2N = np.array(inner_bin[0:max_values,2])
+    P_L3N = np.array(inner_bin[0:max_values,4])
 
-    P_L123N = P_L1N + P_L2N + P_L3N
+    P_L123N = P_L1N #+ P_L2N + P_L3N
 
     print("Data loaded from mat. Formatting....")
 
@@ -107,7 +107,7 @@ def data_power_consumption(path_to_dataset,
 
 def build_model():
     model = Sequential()
-    layers = [1, 50, 100, 1]
+    layers = [1, 60, 100, 1]
     ### Old Version ###
     
     model.add(LSTM(
@@ -119,7 +119,7 @@ def build_model():
     model.add(LSTM(
         layers[2],
         return_sequences=False))
-    model.add(Dropout(0.2))
+    model.add(Dropout(0.3))
 
     model.add(Dense(
         layers[3]))
@@ -194,7 +194,7 @@ if __name__ == '__main__':
     if(int(n_input) == 1):
         print("Your choice is \"ADRES_Daten_120208\"")
         run_network(data=read_mat(path_to_dataset="../Input/ADRES_Daten_120208.mat", ratio=1.0))
-    if(int(n_input) == 2:
+    if(int(n_input) == 2):
         run_network()
 
     print("Program will be terminated...")
