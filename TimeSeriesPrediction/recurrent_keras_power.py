@@ -119,7 +119,7 @@ def build_model():
     model.add(LSTM(
         layers[2],
         return_sequences=False))
-    model.add(Dropout(0.3))
+    model.add(Dropout(0.2))
 
     model.add(Dense(
         layers[3]))
@@ -174,8 +174,10 @@ def run_network(model=None, data=None):
     try:
         fig = plt.figure()
         ax = fig.add_subplot(111)
-        ax.plot(y_test[:100])
-        plt.plot(predicted[:100])
+        #ax.plot(y_test[:100])
+        ax.plot(y_test[:])
+        #plt.plot(predicted[:100])
+        plt.plot(predicted[:])
         plt.show()
     except Exception as e:
         print(str(e))
