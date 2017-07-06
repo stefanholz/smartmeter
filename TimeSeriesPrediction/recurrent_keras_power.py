@@ -175,9 +175,9 @@ def run_network(model=None, data=None):
         fig = plt.figure()
         ax = fig.add_subplot(111)
         #ax.plot(y_test[:100])
-        ax.plot(y_test[:])
+        ax.plot(y_test[:100])
         #plt.plot(predicted[:100])
-        plt.plot(predicted[:])
+        plt.plot(predicted[:100])
         plt.show()
     except Exception as e:
         print(str(e))
