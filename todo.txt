@@ -1,0 +1,4 @@
+########## ToDo List ##########
+- examine with oncounter difference between day and night
+- create NN for pattern recognition
+
