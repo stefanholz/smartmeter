@@ -22,9 +22,10 @@ def read_mat(path_to_dataset,
 
     P_L1N = np.array(inner_bin[0:max_values,0])
     P_L2N = np.array(inner_bin[0:max_values,2])
-    P_L3N = np.array(inner_bin[0:max_values,4])
+    P_L3N = np.array(inner_bin[0:max_values,6])
 
-    P_L123N = P_L1N #+ P_L2N + P_L3N
+    #P_L123N = P_L1N + P_L2N + P_L3N
+    P_L123N = P_L3N
 
     print("Data loaded from mat. Formatting....")
 
