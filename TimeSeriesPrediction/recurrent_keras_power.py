@@ -196,7 +196,7 @@ if __name__ == '__main__':
 
     if(int(n_input) == 1):
         print("Your choice is \"ADRES_Daten_120208\"")
-        run_network(data=read_mat(path_to_dataset="../Input/ADRES_Daten_120208.mat", ratio=1.0))
+        run_network(data=read_mat(path_to_dataset="../Input/ADRES_Daten_120208.mat", ratio=0.60))
     if(int(n_input) == 2):
         run_network()
 
