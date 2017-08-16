@@ -1,0 +1,16 @@
+Good examples for presentation:
+
+----------------------------
+ratio = 1.0
+range(16, 18, 2)
+lstm(50)
+prediction_window = 49
+train-ratio = 0.99
+----------------------------
+ratio = 1.0
+range(36,38,2)
+lstm(50)
+prediction_window = 49
+train-ratio = 0.99
+better than first
+----------------------------
