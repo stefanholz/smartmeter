@@ -13,12 +13,12 @@ import matplotlib.pyplot as plt
 from tsc_model import Model,sample_batch,load_data #,check_test
 
 #Set these directories
-direc = '/home/stefan/Dropbox/Technische Informatik/Bachelorarbeit/LSTM_tsc-master/LSTM/UCR_TS_Archive_2015'
-summaries_dir = '/home/stefan/Dropbox/Technische Informatik/Bachelorarbeit/LSTM_tsc-master/LSTM_TSC/log_tb'
+direc = './SMD'
+summaries_dir = './log_tb'
 
 """Load the data"""
 ratio = np.array([0.8,0.9]) #Ratios where to split the training and validation set
-X_train,X_val,X_test,y_train,y_val,y_test = load_data(direc,ratio,dataset='ChlorineConcentration')
+X_train,X_val,X_test,y_train,y_val,y_test = load_data(direc,ratio,dataset='Devices')
 N,sl = X_train.shape
 num_classes = len(np.unique(y_train))
 
