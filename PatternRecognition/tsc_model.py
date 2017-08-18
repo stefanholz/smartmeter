@@ -25,18 +25,17 @@ from tensorflow.python.ops import clip_ops
 from tensorflow.contrib.rnn import LSTMCell
 from tensorflow.contrib.rnn.python.ops import core_rnn
 
-def load_data(direc,ratio,dataset):
+def load_data_devices(ratio):
   """Input:
   direc: location of the UCR archive
   ratio: ratio to split training and testset
   dataset: name of the dataset in the UCR archive"""
-  datadir = direc + '/' + dataset + '/' + dataset
-  data_train = np.loadtxt(datadir+'_TRAIN',delimiter=',')
-  data_test_val = np.loadtxt(datadir+'_TEST',delimiter=',')
+  data_train = np.loadtxt('./SMD/Devices/Devices',delimiter=',', usecols=range(0,1000))
   # Merge test and train file into 1 array
-  DATA = np.concatenate((data_train,data_test_val),axis=0)
+  DATA = data_train
   # Number of rows
   N = DATA.shape[0]
+  print('DATA.shape[0] : ', DATA.shape[0])
 
   ratio = (ratio*N).astype(np.int32)
   ind = np.random.permutation(N)
@@ -47,6 +46,31 @@ def load_data(direc,ratio,dataset):
   y_train = DATA[ind[:ratio[0]],0]-1
   y_val = DATA[ind[ratio[0]:ratio[1]],0]-1
   y_test = DATA[ind[ratio[1]:],0]-1
+  return X_train,X_val,X_test,y_train,y_val,y_test
+
+def load_data(direc,ratio,dataset):
+  """Input:
+  direc: location of the UCR archive
+  ratio: ratio to split training and testset
+  dataset: name of the dataset in the UCR archive"""
+  datadir = direc + '/' + dataset + '/' + dataset
+  data_train = np.loadtxt(datadir+'_TRAIN',delimiter=',', usecols=range(0,20000))
+  data_test_val = np.loadtxt(datadir+'_TEST',delimiter=',', usecols=range(0,20000))
+  # Merge test and train file into 1 array
+  DATA = np.concatenate((data_train,data_test_val),axis=0)
+  # Number of rows
+  N = DATA.shape[0]
+  print('DATA.shape[0] : ', DATA.shape[0])
+
+  ratio = (ratio*N).astype(np.int32)
+  ind = np.random.permutation(N)
+  X_train = DATA[ind[:ratio[0]],1:]
+  X_val = DATA[ind[ratio[0]:ratio[1]],1:]
+  X_test = DATA[ind[ratio[1]:],1:]
+  # Targets have labels 1-indexed. We subtract one for 0-indexed
+  y_train = DATA[ind[:ratio[0]],0]
+  y_val = DATA[ind[ratio[0]:ratio[1]],0]
+  y_test = DATA[ind[ratio[1]:],0]
   return X_train,X_val,X_test,y_train,y_val,y_test
 
 
@@ -73,6 +97,7 @@ class Model():
     self.input = tf.placeholder(tf.float32, [None, sl], name = 'input')
     self.labels = tf.placeholder(tf.int64, [None], name='labels')
     self.keep_prob = tf.placeholder("float", name = 'Drop_out_keep_prob')
+    print(1)
 
     with tf.name_scope("LSTM_setup") as scope:
       def single_cell():
@@ -80,10 +105,11 @@ class Model():
 
       cell = tf.contrib.rnn.MultiRNNCell([single_cell() for _ in range(num_layers)])
       initial_state = cell.zero_state(self.batch_size, tf.float32)
-    
+    print(2)
     input_list = tf.unstack(tf.expand_dims(self.input,axis=2),axis=1)
+    print(2.5)
     outputs,_ = core_rnn.static_rnn(cell, input_list, dtype=tf.float32)
-
+    print(3)
     output = outputs[-1]
 
 

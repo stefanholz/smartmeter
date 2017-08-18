@@ -10,7 +10,7 @@ import numpy as np
 import tensorflow as tf  #TF 1.1.0rc1
 tf.logging.set_verbosity(tf.logging.ERROR)
 import matplotlib.pyplot as plt
-from tsc_model import Model,sample_batch,load_data #,check_test
+from tsc_model import Model,sample_batch,load_data, load_data_devices #,check_test
 
 #Set these directories
 direc = './SMD'
@@ -18,13 +18,15 @@ summaries_dir = './log_tb'
 
 """Load the data"""
 ratio = np.array([0.8,0.9]) #Ratios where to split the training and validation set
-X_train,X_val,X_test,y_train,y_val,y_test = load_data(direc,ratio,dataset='Devices')
+X_train,X_val,X_test,y_train,y_val,y_test = load_data_devices(ratio)
 N,sl = X_train.shape
+print('X_train.shape: ', N)
 num_classes = len(np.unique(y_train))
+print('Amount of classes: ', num_classes)
 
 """Hyperparamaters"""
 batch_size = 30
-max_iterations = 3000
+max_iterations = 300
 dropout = 0.8
 config = {    'num_layers' :    3,               #number of layers of stacked RNN's
               'hidden_size' :   120,             #memory cells in a layer
@@ -41,6 +43,7 @@ print('Train %.0f samples in approximately %d epochs' %(N,epochs))
 
 #Instantiate a model
 model = Model(config)
+print('Model is created!')
 
 """Session time"""
 sess = tf.Session() #Depending on your use, do not forget to close the session
