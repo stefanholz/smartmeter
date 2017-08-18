@@ -30,7 +30,7 @@ def load_data_devices(ratio):
   direc: location of the UCR archive
   ratio: ratio to split training and testset
   dataset: name of the dataset in the UCR archive"""
-  data_train = np.loadtxt('./SMD/Devices/Devices',delimiter=',', usecols=range(0,1000))
+  data_train = np.loadtxt('./SMD/Devices/Devices',delimiter=',', usecols=range(0,100))
   # Merge test and train file into 1 array
   DATA = data_train
   # Number of rows
@@ -77,6 +77,7 @@ def load_data(direc,ratio,dataset):
 def sample_batch(X_train,y_train,batch_size):
   """ Function to sample a batch for training"""
   N,data_len = X_train.shape
+  #print('X_train.shape: ', N)
   ind_N = np.random.choice(N,batch_size,replace=False)
   X_batch = X_train[ind_N]
   y_batch = y_train[ind_N]

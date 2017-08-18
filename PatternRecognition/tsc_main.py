@@ -25,8 +25,9 @@ num_classes = len(np.unique(y_train))
 print('Amount of classes: ', num_classes)
 
 """Hyperparamaters"""
-batch_size = 30
-max_iterations = 300
+# default batch_size = 30
+batch_size = 5
+max_iterations = 3000
 dropout = 0.8
 config = {    'num_layers' :    3,               #number of layers of stacked RNN's
               'hidden_size' :   120,             #memory cells in a layer
